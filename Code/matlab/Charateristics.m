@@ -11,10 +11,8 @@ names = [];
 Rl  = 994.6;
 s_R1 = 3.9;
 
-
-
-
 for i = 12:19
+    % data import, mean and std of 3 measurements to reduce errors
     swapString = int2str(i);
     names = [names, strcat( "$ V_{GS} = ", swapString(1), ".", swapString(2), "\; \mathrm{V} $") ];
 
@@ -31,6 +29,7 @@ for i = 12:19
     ch2 = mean(swap_ch2, 2);
     s_ch2 = std(swap_ch2, 0, 2);
 
+    % calculation of current and error propagation
     Id = (ch1-ch2) / Rl * 1e3;
     s_Id = sqrt( (s_ch1/Rl).^2 + (s_ch2/Rl).^2 + ( (ch1-ch2)*s_R1/(Rl^2) ).^2 ) * 1e3;
 
@@ -41,12 +40,10 @@ for i = 12:19
 
 end
 
-%Ilod = repelen( 4.983 / Rl, length(Id) );
+% load line
 Vlod = linspace(0, 4.983, 100);
 plot(Vlod, (4.983-Vlod)/Rl*1e3, '--', Color= 'black', LineWidth= 1.5);
 names = [names, "Load Line"];
-
-
 
 hold off
 
